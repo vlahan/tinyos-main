@@ -1,4 +1,3 @@
-
 /* Copyright (c) 2000-2003 The Regents of the University of California.  
  * All rights reserved.
  *
@@ -357,12 +356,12 @@ MSP430REG_NORACE2(I2CDCTLnr,I2CDCTL);
 #endif
 
 // The signal attribute has opposite meaning in msp430-gcc than in avr-gcc
-#define TOSH_SIGNAL(signame) \
-  void sig_##signame() __attribute__((interrupt (signame), wakeup)) @C()
+#define MSP430_ATOMIC_HANDLER(signame) \
+  void sig_##signame() __attribute__((interrupt (signame), wakeup)) @atomic_hwevent() @C()
 
 // TOSH_INTERRUPT allows nested interrupts
-#define TOSH_INTERRUPT(signame) \
-  void isr_##signame() __attribute__((interrupt (signame), signal, wakeup)) @C()
+#define MSP430_NONATOMIC_HANDLER(signame) \
+  void isr_##signame() __attribute__((interrupt (signame), signal, wakeup)) @hwevent @C()
 
 
 #define SET_FLAG(port, flag) ((port) |= (flag))
